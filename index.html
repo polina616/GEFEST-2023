@@ -208,8 +208,72 @@
 
         @media (max-width:1024px) { .services-grid { grid-template-columns: 1fr; } }
 
-        @media (max-width:768px) { nav { flex-direction: column; gap: 20px; } .nav-links { flex-direction: column; gap: 15px; } h1 { font-size: 4rem; } h2 { font-size: 3rem; } section { padding: 80px 5%; } }
+        @media (max-width: 768px) {
+    nav {
+        padding: 8px 5% !important;
+        height: 50px !important;
+        min-height: 50px !important;
+        align-items: center !important;
+        position: relative !important;
+        justify-content: space-between !important;
+    }
 
+    .logo {
+        font-size: 1.4rem !important;
+        line-height: 1 !important;
+        margin: 0 !important;
+    }
+
+    /* Прячем обычное меню */
+    .nav-links {
+        display: none !important;
+    }
+
+    /* Кнопка-гамбургер теперь в HTML */
+    .hamburger {
+        font-size: 2rem;
+        color: var(--gold);
+        background: none;
+        border: none;
+        cursor: pointer;
+        z-index: 101;
+        padding: 0 10px;
+    }
+
+    /* Выезжающее меню */
+    .nav-links.active {
+        display: flex !important;
+        flex-direction: column !important;
+        position: absolute;
+        top: 50px;
+        left: 0;
+        right: 0;
+        background: rgba(26,18,11,0.98) !important;
+        padding: 10px 5% 20px !important;
+        gap: 15px !important;
+        z-index: 100;
+        box-shadow: 0 8px 15px rgba(0,0,0,0.6);
+        border-top: 1px solid var(--gold);
+    }
+
+    .nav-links.active a {
+        font-size: 1.2rem !important;
+        text-align: center;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(212,175,55,0.15);
+    }
+
+    .nav-links.active a:last-child {
+        border-bottom: none;
+    }
+
+    header.hero {
+        padding-top: 50px !important;
+        min-height: calc(100vh - 50px) !important;
+        height: auto !important;
+        background-position: center 30% !important;
+    }
+}
         /* Усиление теней для планов эвакуации */
 #evacuation-section {
     position: relative;
@@ -658,6 +722,7 @@
     <div class="fire-bg-layer"></div>
     <nav>
         <div class="logo">GEFEST-2023</div>
+        <button class="hamburger" aria-label="Открыть меню">☰</button>
         <div class="nav-links">
             <a href="#home">Главная</a>
             <a href="#services">Услуги</a>
@@ -669,8 +734,8 @@
     <header class="hero" id="home">
         <div class="hero-content">
             <h1>GEFEST-2023</h1>
-            <p class="hero-subtitle">Услуги фронтального погрузчика • Перезарядка огнетушителей</p>
-            <p class="hero-subtitle">Разработка планов эвакуации</p>
+            <p class="hero-subtitle"> •Услуги фронтального погрузчика• •Перезарядка огнетушителей•</p>
+            <p class="hero-subtitle">•Разработка планов эвакуации•</p>
         </div>
     </header>
 
@@ -1008,29 +1073,38 @@ function scrollToPortfolio(groupId) {
     </div>
 </div>
     <script>
-    // Мобильное меню (гамбургер)
+    // Мобильное меню-гамбургер (работает с реальной кнопкой)
 document.addEventListener('DOMContentLoaded', () => {
-    const nav = document.querySelector('nav');
+    const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
 
-    // Клик по гамбургеру (☰)
-    nav.addEventListener('click', (e) => {
-        if (e.target.textContent === '☰') {
-            navLinks.classList.toggle('active');
+    if (!hamburger || !navLinks) return;
+
+    // Клик по кнопке ☰
+    hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        
+        // Меняем иконку на крестик
+        if (navLinks.classList.contains('active')) {
+            hamburger.textContent = '✕';
+        } else {
+            hamburger.textContent = '☰';
         }
     });
 
-    // Закрываем меню при клике вне шапки
+    // Закрытие меню при клике вне
     document.addEventListener('click', (e) => {
-        if (!nav.contains(e.target)) {
+        if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
             navLinks.classList.remove('active');
+            hamburger.textContent = '☰';
         }
     });
 
-    // Закрываем меню после выбора пункта
+    // Закрытие после выбора пункта
     navLinks.addEventListener('click', (e) => {
         if (e.target.tagName === 'A') {
             navLinks.classList.remove('active');
+            hamburger.textContent = '☰';
         }
     });
 });
