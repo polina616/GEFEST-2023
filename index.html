@@ -468,22 +468,26 @@
     </style>
 </head>
 <body>
-    <!-- Скрипт принудительной прокрутки вверх (выполняется сразу) -->
     <script>
-        (function() {
-            if ('scrollRestoration' in history) {
-                history.scrollRestoration = 'manual';
-            }
-            window.scrollTo(0, 0);
-            window.addEventListener('load', function() {
-                if (window.innerWidth <= 768) {
-                    setTimeout(function() {
-                        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-                    }, 200);
-                }
-            });
-        })();
-    </script>
+    (function() {
+        // 1. Удаляем якорь из адресной строки без перезагрузки страницы
+        if (window.location.hash) {
+            history.replaceState(null, null, window.location.pathname + window.location.search);
+        }
+        // 2. Запрещаем браузеру восстанавливать позицию прокрутки
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+        // 3. Немедленно прокручиваем в самый верх
+        window.scrollTo(0, 0);
+        // 4. После полной загрузки страницы (на случай, если браузер снова попытается прокрутить)
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+            }, 50);
+        });
+    })();
+</script>
 
     <div class="fire-bg-layer"></div>
     <nav>
