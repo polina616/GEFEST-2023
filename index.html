@@ -1293,5 +1293,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
     </script>
+    <script>
+    // Принудительная прокрутка вверх, если в URL нет якоря
+window.addEventListener('load', function() {
+    // Проверяем, есть ли в адресе якорь (хеш) и не равен ли он просто "#"
+    if (!window.location.hash || window.location.hash === '#') {
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'instant' // можно 'smooth' для плавности
+        });
+    }
+});
+    </script>
 </body>
 </html>
