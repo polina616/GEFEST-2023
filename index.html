@@ -427,11 +427,23 @@
 }
 
 #portfolio {
-    display: none; /* вся секция скрыта по умолчанию */
-    background: rgba(60,47,47,0.15); 
-    padding: 120px 5% 100px;
-    max-width:1400px; 
-    margin:0 auto;
+    display: none; /* скрыта по умолчанию */
+}
+
+#portfolio.active {
+    display: block; /* показываем при выборе */
+}
+
+/* Для плавного появления всей секции */
+#portfolio {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+#portfolio.active.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 #portfolio.active {
@@ -697,25 +709,32 @@ function closePortfolioChooser() {
 
 // Новая функция — показываем выбранную группу и закрываем модалку
 function showGroup(group) {
-    // Скрываем все группы
+    // Показываем всю секцию #portfolio
+    const portfolioSection = document.getElementById('portfolio');
+    if (portfolioSection) {
+        portfolioSection.classList.add('active');
+        portfolioSection.classList.add('visible'); // для анимации появления
+    }
+
+    // Скрываем все группы внутри
     document.querySelectorAll('.portfolio-group').forEach(el => {
         el.classList.remove('active');
     });
-    
-    // Показываем нужную
+
+    // Показываем только выбранную группу
     const target = document.getElementById('portfolio-' + group);
     if (target) {
         target.classList.add('active');
-        
-        // Плавный скролл к началу секции портфолио
-        setTimeout(() => {
-            document.getElementById('portfolio').scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }, 100); // небольшая задержка после закрытия модалки
     }
-    
+
+    // Плавный скролл к началу секции
+    setTimeout(() => {
+        portfolioSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }, 300); // задержка 0.3 сек, чтобы модалка успела закрыться
+
     // Закрываем модальное окно
     closePortfolioChooser();
 }
