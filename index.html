@@ -670,19 +670,6 @@
         display: none !important;
     }
 
-    /* Добавляем кнопку-гамбургер справа */
-    nav::after {
-        content: "☰"; /* три полоски (можно заменить на ≡ или ⋮) */
-        font-size: 2.2rem;
-        color: var(--gold);
-        cursor: pointer;
-        position: absolute;
-        right: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 101;
-    }
-
     /* Выезжающее мобильное меню */
     .nav-links.active {
         display: flex !important;
@@ -734,8 +721,9 @@
     <header class="hero" id="home">
         <div class="hero-content">
             <h1>GEFEST-2023</h1>
-            <p class="hero-subtitle"> •Услуги фронтального погрузчика• •Перезарядка огнетушителей•</p>
+            <p class="hero-subtitle">•Услуги фронтального погрузчика•</p>
             <p class="hero-subtitle">•Разработка планов эвакуации•</p>
+            <p class="hero-subtitle">•Перезарядка огнетушителей•</p>
         </div>
     </header>
 
