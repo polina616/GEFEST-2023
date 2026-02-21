@@ -587,6 +587,71 @@
     h2 { font-size: 2.4rem !important; }
     .btn-primary { padding: 14px 40px !important; font-size: 1.1rem !important; }
 }
+        /* Компактная шапка на мобильных */
+@media (max-width: 768px) {
+    nav {
+        padding: 8px 5% !important; /* минимальные отступы */
+        height: 55px !important;     /* очень низкая шапка */
+        align-items: center !important;
+        justify-content: space-between !important;
+    }
+
+    .logo {
+        font-size: 1.5rem !important; /* логотип меньше */
+        margin: 0 !important;
+    }
+
+    /* Прячем обычное меню полностью */
+    .nav-links {
+        display: none !important;
+    }
+
+    /* Добавляем кнопку-гамбургер справа */
+    nav::after {
+        content: "☰"; /* три полоски (можно заменить на ≡ или ⋮) */
+        font-size: 2.2rem;
+        color: var(--gold);
+        cursor: pointer;
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 101;
+    }
+
+    /* Выезжающее мобильное меню */
+    .nav-links.active {
+        display: flex !important;
+        flex-direction: column !important;
+        position: absolute;
+        top: 55px;
+        left: 0;
+        right: 0;
+        background: rgba(26,18,11,0.98);
+        padding: 15px 5% 30px;
+        gap: 18px !important;
+        z-index: 100;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+        border-bottom: 2px solid var(--gold);
+    }
+
+    .nav-links.active a {
+        font-size: 1.3rem !important;
+        text-align: center;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(212,175,55,0.2);
+    }
+
+    .nav-links.active a:last-child {
+        border-bottom: none;
+    }
+
+    /* Чтобы hero начинался сразу под шапкой */
+    header.hero {
+        padding-top: 55px !important; /* высота шапки */
+        min-height: calc(100vh - 55px) !important;
+    }
+}
     </style>
 </head>
 <body>
@@ -942,5 +1007,31 @@ function scrollToPortfolio(groupId) {
         </div>
     </div>
 </div>
+    // Мобильное меню (гамбургер)
+document.addEventListener('DOMContentLoaded', () => {
+    const nav = document.querySelector('nav');
+    const navLinks = document.querySelector('.nav-links');
+
+    // Клик по гамбургеру (☰)
+    nav.addEventListener('click', (e) => {
+        if (e.target.textContent === '☰') {
+            navLinks.classList.toggle('active');
+        }
+    });
+
+    // Закрываем меню при клике вне шапки
+    document.addEventListener('click', (e) => {
+        if (!nav.contains(e.target)) {
+            navLinks.classList.remove('active');
+        }
+    });
+
+    // Закрываем меню после выбора пункта
+    navLinks.addEventListener('click', (e) => {
+        if (e.target.tagName === 'A') {
+            navLinks.classList.remove('active');
+        }
+    });
+});
 </body>
 </html>
