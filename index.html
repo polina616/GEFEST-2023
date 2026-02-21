@@ -842,6 +842,31 @@
     </style>
 </head>
 <body>
+<script>
+    (function() {
+        // 1. Запрещаем браузеру восстанавливать позицию скролла
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+        // 2. Мгновенно прокручиваем в самый верх (ещё до загрузки контента)
+        window.scrollTo(0, 0);
+
+        // 3. После полной загрузки страницы проверяем и при необходимости снова ставим верх
+        window.addEventListener('load', function() {
+            // Только для мобильных (ширина <= 768px)
+            if (window.innerWidth <= 768) {
+                // Небольшая задержка, чтобы браузер завершил все свои автопрокрутки
+                setTimeout(function() {
+                    window.scrollTo({
+                        top: 0,
+                        left: 0,
+                        behavior: 'instant' // без анимации
+                    });
+                }, 200); // 200 мс достаточно
+            }
+        });
+    })();
+</script>
     <div class="fire-bg-layer"></div>
     <nav>
         <div class="logo">GEFEST-2023</div>
