@@ -690,6 +690,7 @@
         height: 55px !important;
         align-items: center !important;
         justify-content: space-between !important;
+        position: fixed !important;
         
     }
     .logo {
@@ -1306,5 +1307,20 @@ window.addEventListener('load', function() {
     }
 });
     </script>
+    <script>
+    // Принудительная прокрутка вверх на мобильных устройствах
+    if (window.innerWidth <= 768) { // условие для мобильных
+        window.addEventListener('load', function() {
+            // Небольшая задержка, чтобы браузер завершил все свои автопрокрутки
+            setTimeout(function() {
+                window.scrollTo({
+                    top: 0,
+                    left: 0,
+                    behavior: 'instant' // без анимации, чтобы не было дерганья
+                });
+            }, 100); // 100 миллисекунд достаточно
+        });
+    }
+</script>
 </body>
 </html>
